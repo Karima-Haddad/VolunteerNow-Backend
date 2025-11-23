@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const Badge =  mongoose.model({
+const Badge =  mongoose.model('badge',{
 
     nom: {
         type: String,

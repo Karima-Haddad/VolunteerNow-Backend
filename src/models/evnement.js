@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
-const EvenementSchema =  mongoose.model({
+const Evenement =  mongoose.model('evenement',{
 
-    id_organisation: {
-        type: Number,          // FK → user.id
+    organisation_id: {
+        type: mongoose.Schema.Types.ObjectId,          // FK → user.id
         required: true
     },
 

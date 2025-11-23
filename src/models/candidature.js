@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
 
-const Candidature=  mongoose.model({
+const Candidature=  mongoose.model('candidature',{
 
     user_id: {
-        type: Number,         // FK → User.id
+        type: mongoose.Schema.Types.ObjectId,         // FK → User.id
         required: true
     },
 
     event_id: {
-        type: Number,         // FK → Evenement.id
+        type: mongoose.Schema.Types.ObjectId,         // FK → Evenement.id
         required: true
     },
 
