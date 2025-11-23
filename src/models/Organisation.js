@@ -1,12 +1,6 @@
 const mongoose = require('mongoose');
 
-const Organisation =  mongoose.model({
-
-    id_user: {
-        type: Number,
-        required: true,
-        unique: true   
-    },
+const Organisation =  mongoose.model('organisation',{
 
     site_web: {
         type: String,

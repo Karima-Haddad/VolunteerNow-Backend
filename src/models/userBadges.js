@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
 
-const UserBadge =  mongoose.model({
+const UserBadge =  mongoose.model('userbadge',{
 
     user_id: {
-        type: Number,          // FK vers User.id
+        type: mongoose.Schema.Types.ObjectId,          // FK vers User.id
         required: true
     },
 
     badge_id: {
-        type: Number,          // FK vers Badge.id
+        type: mongoose.Schema.Types.ObjectId,          // FK vers Badge.id
         required: true
     },
 
