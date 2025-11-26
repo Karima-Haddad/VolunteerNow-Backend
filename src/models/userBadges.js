@@ -1,14 +1,16 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const UserBadge =  mongoose.model('userbadge',{
+const userBadgeSchema = new mongoose.Schema({
 
     user_id: {
-        type: mongoose.Schema.Types.ObjectId,          // FK vers User.id
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",                         // relation avec User
         required: true
     },
 
     badge_id: {
-        type: mongoose.Schema.Types.ObjectId,          // FK vers Badge.id
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Badge",                        // relation avec Badge
         required: true
     },
 
@@ -17,6 +19,8 @@ const UserBadge =  mongoose.model('userbadge',{
         default: Date.now
     }
 
-});
+}, { timestamps: true });   // ajoute createdAt + updatedAt
 
-module.exports = UserBadge;
+
+
+module.exports = mongoose.model("UserBadge", userBadgeSchema);

@@ -1,21 +1,23 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const Candidature=  mongoose.model('candidature',{
+const candidatureSchema = new mongoose.Schema({
 
     user_id: {
-        type: mongoose.Schema.Types.ObjectId,         // FK → User.id
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
         required: true
     },
 
     event_id: {
-        type: mongoose.Schema.Types.ObjectId,         // FK → Evenement.id
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Evenement",
         required: true
     },
 
     statut: {
         type: String,
-        enum: ['en_attente', 'acceptee', 'refusee'],
-        default: 'en_attente'
+        enum: ["en_attente", "acceptee", "refusee"],
+        default: "en_attente"
     },
 
     date_candidature: {
@@ -23,6 +25,9 @@ const Candidature=  mongoose.model('candidature',{
         default: Date.now
     }
 
-});
+}, { timestamps: true });
 
-module.exports = Candidature;
+//Empêcher un user de postuler deux fois au même événement
+candidatureSchema.index({ user_id: 1, event_id: 1 }, { unique: true });
+
+module.exports = mongoose.model("Candidature", candidatureSchema);
