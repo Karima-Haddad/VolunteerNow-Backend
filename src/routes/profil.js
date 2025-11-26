@@ -13,3 +13,4 @@ router.get("/:id", getPublicProfile);
 router.put("/update/:id", requireLogin, upload.single("photo"), updateProfile);
 
 module.exports = router;
+

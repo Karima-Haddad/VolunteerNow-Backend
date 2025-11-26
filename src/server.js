@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+
 // Force le rechargement du modèle Evenement (à supprimer plus tard en prod)
 const mongoose = require('mongoose');
 delete mongoose.connection.models['Evenement'];
@@ -9,7 +10,7 @@ require('./config/connection');
 
 // Express
 const express = require('express');
-const app = express();
+app = express();
 
 // Session + Passport
 const session = require("express-session");
@@ -23,8 +24,33 @@ app.use(session({
   saveUninitialized: false,
 }));
 
+// Connection to DB
+require('./config/connection');
+
+// Express import
+const express = require('express');
+const app = express();
+
+//IMPORT SESSION + PASSPORT
+const session = require("express-session");
+const passport = require("./config/googleStrategy");
+
+
+// Accept Json Data Type
+app.use(express.json());  
+
+//Passeport
+app.use(
+  session({
+    secret: "volunteernow",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 // ====================== ROUTES OFFICIELLES ======================
 const loginRouter       = require('./routes/login');
@@ -162,6 +188,25 @@ app.listen(3000, () => {
 
 
 
+
+
+
+// Routes import
+const loginRouter =  require('./routes/login');
+const profileRouter = require('./routes/profil');
+const googleAuthRouter = require("./routes/googleAuth");
+const eventRouter  = require('./routes/event');
+
+// Route prefix
+app.use('/auth',loginRouter);
+app.use('/profil',profileRouter);
+app.use('/authgoogle',googleAuthRouter);
+app.use('/evenements',eventRouter);
+
+// Server listener
+app.listen(3000,()=>{
+    console.log('server work');   
+});
 
 
 

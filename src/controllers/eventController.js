@@ -27,6 +27,7 @@ exports.getEventById = async (req,res) => {
 exports.getEventsPositions = async (req,res) =>{
     try{
         const events = await Evenement.find({ statut: "Ouvert" },{
+
             titre: 1,
             localisation: 1,
             position: 1
@@ -38,6 +39,7 @@ exports.getEventsPositions = async (req,res) =>{
         console.error("Erreur getEventsPositions:", err);
         res.status(500).json({ message: "Erreur serveur" });
   }
+
 }
 
 

@@ -30,4 +30,8 @@ const candidatureSchema = new mongoose.Schema({
 //Empêcher un user de postuler deux fois au même événement
 candidatureSchema.index({ user_id: 1, event_id: 1 }, { unique: true });
 
+<<<<<<< HEAD
 module.exports = mongoose.model("Candidature", candidatureSchema);
+=======
+module.exports = mongoose.model("Candidature", candidatureSchema);
+>>>>>>> fb741b7 (premier Commit)
