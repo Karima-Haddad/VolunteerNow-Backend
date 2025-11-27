@@ -47,24 +47,24 @@ const evenementSchema = new mongoose.Schema({
         }
     },
 
-    // 🏷️ Catégorie (environnement, social, santé…)
+    // Catégorie (environnement, social, santé…)
     categorie: {
         type: String,
         required: true,
         trim: true
     },
 
-    // 👥 Nombre de places disponibles
+    // Nombre de places disponibles
     nb_places: {
         type: Number,
         required: true,
         min: 0
     },
 
-    // 🔛 Statut
+    // Statut
     statut: {
         type: String,
-        enum: ["ouvert", "ferme", "termine"],
+        enum: ["Ouvert", "Fermé", "Terminé"],
         default: "ouvert"
     }
 
