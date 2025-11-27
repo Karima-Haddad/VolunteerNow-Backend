@@ -19,7 +19,7 @@ const userBadgeSchema = new mongoose.Schema({
         default: Date.now
     }
 
-}, { timestamps: true });   // ajoute createdAt + updatedAt
+}, { timestamps: true });   
 
 
 
