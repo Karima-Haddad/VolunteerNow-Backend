@@ -27,7 +27,6 @@ exports.getEventById = async (req,res) => {
 exports.getEventsPositions = async (req,res) =>{
     try{
         const events = await Evenement.find({ statut: "Ouvert" },{
-
             titre: 1,
             localisation: 1,
             position: 1
@@ -39,45 +38,9 @@ exports.getEventsPositions = async (req,res) =>{
         console.error("Erreur getEventsPositions:", err);
         res.status(500).json({ message: "Erreur serveur" });
   }
-
 }
 
 
-
-
-//*********************************MAYSSA**********************************/
-exports.createEvent = async (req, res) => {
-    console.log("REQ.USER =", req.user);  // <--- AJOUTE ÇA
-    try {
-        if (req.user.role !== "organisation") {
-            return res.status(403).json({ message: "Seuls les organismes peuvent créer un événement" });
-        }
-
-        const event = new Evenement({
-            ...req.body,
-            organisation_id: req.user._id
-        });
-
-        await event.save();
-        res.status(201).json(event);
-
-    } catch (err) {
-        console.error("Erreur createEvent:", err);
-        res.status(500).json({ message: "Erreur serveur", error: err.message });
-    }
-}
-
-// Récupérer tous les événements
-exports.getEvents = async (req, res) => {
-    try {
-        const events = await Evenement.find()
-            .populate("organisation_id", "name organisation_infos");
-        res.status(200).json(events);
-    } catch (err) {
-        console.error("Erreur getEvents:", err);
-        res.status(500).json({ message: "Erreur serveur", error: err.message });
-    }
-};
 
 exports.updateStatus = async(req,res) => {
     try{
