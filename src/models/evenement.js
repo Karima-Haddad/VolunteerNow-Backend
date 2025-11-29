@@ -28,11 +28,17 @@ const evenementSchema = new mongoose.Schema({
         required: true
     },
 
-    // 🏠 Adresse textuelle (ville + rue + pays, etc.)
+    // 🏠 Adresse textuelle
     localisation: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        validate: {
+            validator: function (v) {
+                return /.+[-–—].+/.test(v);
+            },
+            message: props => `"${props.value}" doit contenir un tiret (ex: Alger-Centre)`
+        }
     },
 
     // 📍 Position GPS exacte
@@ -47,31 +53,29 @@ const evenementSchema = new mongoose.Schema({
         }
     },
 
-    // Catégorie (environnement, social, santé…)
+    // 🏷️ Catégorie
     categorie: {
         type: String,
         required: true,
         trim: true
     },
 
-    // Nombre de places disponibles
+    // 👥 Nombre de places
     nb_places: {
         type: Number,
         required: true,
         min: 0
     },
 
-    // Statut
+    // 🔛 Statut
     statut: {
         type: String,
-        enum: ["Ouvert", "Fermé", "Terminé"],
+        enum: ["ouvert", "ferme", "termine"],
         default: "ouvert"
     }
 
 }, { timestamps: true });
 
-
-// Index utile pour filtrer par organisation
 evenementSchema.index({ organisation_id: 1 });
 
 module.exports = mongoose.model("Evenement", evenementSchema);

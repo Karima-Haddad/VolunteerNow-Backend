@@ -6,7 +6,7 @@ exports.register = async (req, res) => {
     try {
         console.log("Données reçues :", req.body);
 
-        const { email, password, name, role, ville, phone, bio, photo, categories } = req.body;
+        const { email, password, name, role, ville, phone, bio, photo, categories, organisation_infos } = req.body;
 
         // Vérifier que les champs essentiels sont présents
         if (!email || !password || !name || !role) {
@@ -34,19 +34,21 @@ exports.register = async (req, res) => {
             bio,
             photo,
             categories,
-            organisation_infos: role === "organisation" ? {} : null
+            organisation_infos: role === "organisation" ? organisation_infos || {} : null
         });
 
         // Sauvegarder dans la DB
         await newUser.save();
 
+        // Réponse
         return res.status(201).json({
             message: "Compte créé avec succès",
             user: {
                 id: newUser._id,
                 email: newUser.email,
                 role: newUser.role,
-                name: newUser.name
+                name: newUser.name,
+                organisation_infos: newUser.organisation_infos
             }
         });
 
