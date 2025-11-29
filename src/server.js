@@ -9,7 +9,7 @@ const app = express();
 
 //IMPORT SESSION + PASSPORT
 const session = require("express-session");
-const passport = require("./config/googleStrategy");
+//const passport = require("./config/googleStrategy");
 
 
 // Accept Json Data Type
@@ -24,21 +24,23 @@ app.use(
   })
 );
 
-app.use(passport.initialize());
-app.use(passport.session());
+//app.use(passport.initialize());
+//app.use(passport.session());
 
 
 // Routes import
 const loginRouter =  require('./routes/login');
 const profileRouter = require('./routes/profil');
-const googleAuthRouter = require("./routes/googleAuth");
+//const googleAuthRouter = require("./routes/googleAuth");
 const eventRouter  = require('./routes/event');
+const authRouter = require("./routes/auth");
 
 // Route prefix
 app.use('/auth',loginRouter);
 app.use('/profil',profileRouter);
-app.use('/authgoogle',googleAuthRouter);
+//app.use('/authgoogle',googleAuthRouter);
 app.use('/evenements',eventRouter);
+app.use("/inscription", authRouter);  
 
 // Server listener
 app.listen(3000,()=>{
