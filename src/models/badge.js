@@ -2,27 +2,19 @@ const mongoose = require("mongoose");
 
 const badgeSchema = new mongoose.Schema({
 
-    nom: {
+    niveau: {
         type: String,
-        required: true,
-        trim: true
+        enum: ["bronze", "Argent", "Or", "Platine"],
     },
-
-    icon: {
-        type: String,
-        default: ""
-    },
-
+    
     description: {
         type: String,
         default: ""
     },
-
-    niveau: {
+    
+    icon: {
         type: String,
-        enum: ["bronze", "silver", "gold", "special"],
-        default: "bronze"
+        default: ""
     }
-
 }, { timestamps: true }); 
 module.exports = mongoose.model("Badge", badgeSchema);

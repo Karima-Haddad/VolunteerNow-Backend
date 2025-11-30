@@ -3,8 +3,7 @@ const bcrypt = require('bcrypt');
 
 // === 1. Sous-document pour Organisation ===
 const organisationInfosSchema = new mongoose.Schema({
-    site_web: { type: String, default: "" },
-    categories: { type: String, default: "" },
+    contact: { type: String, default: "" },
     description: { type: String, default: "" }
 }, { _id: false });
 
@@ -52,6 +51,10 @@ const userSchema = new mongoose.Schema({
     bio: {
         type: String,
         default: ""
+    },
+    categories: {
+        type: String,
+        default: "" 
     },
 
     // === Infos spécifiques pour "organisation" ===
