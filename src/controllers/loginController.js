@@ -19,7 +19,7 @@ exports.login = async (req, res) => {
         //Vérifier le mdp
         const isMatching = await bcrypt.compare(password,user.password);
         if(!isMatching){
-            return res.status(400).json({ message: "Eamil ou Mot de passe incorrect" });
+            return res.status(400).json({ message: "Email ou Mot de passe incorrect" });
         }
 
         //Générer le token
@@ -29,7 +29,14 @@ exports.login = async (req, res) => {
         { expiresIn: "1d" }
         );
 
-        res.json({ message: "Connexion réussie", token });
+        res.json({ message: "Connexion réussie",
+                    token,
+                    user: {
+                    id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    role: user.role
+                }});
 
     } catch (err) {
         res.status(500).json({ message: "Erreur serveur", error: err });
@@ -44,7 +51,7 @@ exports.forgotPassword = async (req, res) => {
         //recupérer l'email
         const { email } = req.body;
 
-        //vérifier l'email*
+        //vérifier l'email
         const user = await User.findOne({email});
         if(!user){
             return res.status(400).json({ message: "Email introuvable" });
@@ -128,8 +135,8 @@ exports.forgotPassword = async (req, res) => {
     }
 };
 
-exports.resetPassword = async(req,res) => {
-    try{
+exports.resetPassword = async (req, res) => {
+    try {
         const { token } = req.params;
         const { password } = req.body;
 
@@ -143,12 +150,16 @@ exports.resetPassword = async(req,res) => {
             return res.status(400).json({ message: "Token invalide ou expiré" });
         }
 
-        // Supprimer le token après utilisation
+        // Hasher le nouveau mot de passe
+        // const salt = await bcrypt.genSalt(10);
+        // user.password = await bcrypt.hash(password, salt);
+        user.password = password;
+
+        // Supprimer le token
         user.resetPasswordToken = undefined;
         user.resetPasswordExpires = undefined;
 
-        // Sauvegarder l’utilisateur apres chagement de mdp
-        user.password = password;
+        // Sauvegarder
         await user.save();
 
         res.json({ message: "Mot de passe modifié avec succès" });
