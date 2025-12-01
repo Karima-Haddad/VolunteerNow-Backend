@@ -1,5 +1,7 @@
 const Evenement = require('../models/evenement');
 const User = require('../models/user');
+const Candidature = require("../models/candidature");
+const assignBadges = require("../services/badgeService");
 
 exports.getEventById = async (req,res) => {
     try{
@@ -24,7 +26,7 @@ exports.getEventById = async (req,res) => {
 
 exports.getEventsPositions = async (req,res) =>{
     try{
-        const events = await Evenement.find({},{
+        const events = await Evenement.find({ statut: "Ouvert" },{
             titre: 1,
             localisation: 1,
             position: 1
@@ -40,6 +42,7 @@ exports.getEventsPositions = async (req,res) =>{
 
 
 
+<<<<<<< HEAD
 //*********************************MAYSSA**********************************/
 exports.createEvent = async (req, res) => {
     console.log("REQ.USER =", req.user);  // <--- AJOUTE ÇA
@@ -73,3 +76,43 @@ exports.getEvents = async (req, res) => {
         res.status(500).json({ message: "Erreur serveur", error: err.message });
     }
 };
+=======
+exports.updateStatus = async(req,res) => {
+    try{
+        const { candidatureId } = req.params;
+        const { statut } = req.body;
+
+        //Mettre a jour la candidature
+        const candidature = await Candidature.findByIdAndUpdate(
+            candidatureId,
+            {statut},
+            {new:true}
+        )
+
+        if (!candidature) {
+            return res.status(404).json({ message: "Candidature introuvable" });
+        }
+
+        //Récupérer toutes les candidatures acceptées de cet utilisateur
+        if (statut === "Acceptée"){
+            participations = await Candidature.find({
+                user_id:candidature.user_id,
+                statut: "acceptee"
+            }).populate("event_id");
+        }
+
+
+        await assignBadges(candidature.user_id,participations);
+
+        res.json({ 
+            message: "Statut mis à jour",
+            candidature 
+        });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Erreur serveur" });
+    }
+
+}
+>>>>>>> f27c98e821e248b8d9f68187420a331d2592a256
