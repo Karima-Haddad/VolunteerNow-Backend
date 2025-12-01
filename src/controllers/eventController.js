@@ -42,7 +42,7 @@ exports.getEventsPositions = async (req,res) =>{
 
 
 
-<<<<<<< HEAD
+
 //*********************************MAYSSA**********************************/
 exports.createEvent = async (req, res) => {
     console.log("REQ.USER =", req.user);  // <--- AJOUTE ÇA
@@ -76,7 +76,7 @@ exports.getEvents = async (req, res) => {
         res.status(500).json({ message: "Erreur serveur", error: err.message });
     }
 };
-=======
+
 exports.updateStatus = async(req,res) => {
     try{
         const { candidatureId } = req.params;
@@ -115,4 +115,3 @@ exports.updateStatus = async(req,res) => {
     }
 
 }
->>>>>>> f27c98e821e248b8d9f68187420a331d2592a256
