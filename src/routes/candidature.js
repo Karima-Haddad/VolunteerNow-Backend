@@ -6,7 +6,7 @@ const router = express.Router();
 const { participer, updateStatus } = require("../controllers/candidatureController");
 
 // GARDE DU CORPS : sécurité temporairement désactivée pour tester facilement
-const { ensureAuth } = require("../middlewares/auth");
+const { ensureAuth } = require("../middleware/auth");
 
 // Quand tout marchera, tu remettras la vraie sécurité :
 // const ensureAuth = (req, res, next) => {
