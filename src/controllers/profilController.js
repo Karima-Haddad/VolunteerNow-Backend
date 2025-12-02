@@ -47,8 +47,8 @@ exports.updateProfile = async (req,res) => {
         console.error(error);
         res.status(500).json({ message: "Erreur serveur", error });
     }
-}
 
+}
 
 
 
@@ -209,3 +209,4 @@ exports.getProfile=async (req, res) =>{
     }
 
 }
+

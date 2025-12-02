@@ -36,35 +36,23 @@ const evenementSchema = new mongoose.Schema({
         }
     },
 
-<<<<<<< HEAD
     position: {
         latitude: { type: Number, required: true },
         longitude: { type: Number, required: true }
     },
 
-=======
-    // Catégorie (environnement, social, santé…)
->>>>>>> f27c98e821e248b8d9f68187420a331d2592a256
     categorie: {
         type: String,
         required: true,
         trim: true
     },
 
-<<<<<<< HEAD
-=======
-    // Nombre de places disponibles
->>>>>>> f27c98e821e248b8d9f68187420a331d2592a256
     nb_places: {
         type: Number,
         required: true,
         min: 0
     },
 
-<<<<<<< HEAD
-=======
-    // Statut
->>>>>>> f27c98e821e248b8d9f68187420a331d2592a256
     statut: {
         type: String,
         enum: ["Ouvert", "Fermé", "Terminé"],
