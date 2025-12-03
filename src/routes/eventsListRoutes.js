@@ -5,3 +5,5 @@ const { getAllEventsList } = require("../controllers/eventsListController");
 router.get("/all", getAllEventsList);
 
 module.exports = router;
+
+//zefqe

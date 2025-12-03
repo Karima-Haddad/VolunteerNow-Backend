@@ -49,3 +49,5 @@ app.use("/api/events", eventManagementRoutes); // <- corrigé ici
 app.listen(3000,()=>{
     console.log('server work');   
 });
+
+//zef
