@@ -3,7 +3,7 @@ const router = express.Router();
 
 
 // On importe les deux fonctions du controller
-const { participer, updateStatus } = require("../controllers/candidatureController");
+const { participer, updateStatus, getCandidatureStatus} = require("../controllers/candidatureController");
 
 // GARDE DU CORPS : sécurité temporairement désactivée pour tester facilement
 const { ensureAuth } = require("../middleware/auth");
@@ -18,5 +18,7 @@ const { ensureAuth } = require("../middleware/auth");
 // ROUTES
 router.post("/evenements/:id/participer", participer);
 router.patch("/candidatures/:candidatureId/status", ensureAuth, updateStatus);
+router.get("/status/:eventId", ensureAuth, getCandidatureStatus);
+
 
 module.exports = router;

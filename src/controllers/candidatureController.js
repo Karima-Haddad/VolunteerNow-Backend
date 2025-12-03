@@ -130,3 +130,47 @@ exports.updateStatus = async (req, res) => {
     res.status(500).json({ message: "Erreur serveur" });
   }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//============================KARIMA====================================
+
+exports.getCandidatureStatus = async (req, res) => {
+    try {
+        const userId = req.user._id  || req.user.id;       // récupéré depuis le token
+        const eventId = req.params.eventId;
+
+        const candidature = await Candidature.findOne({
+            user_id: userId,
+            event_id: eventId
+        });
+
+        if (!candidature) {
+            return res.json({ status: "none" });
+        }
+
+        let status = candidature.statut;
+        return res.json({ status });
+    }
+    catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Erreur serveur" });
+    }
+};
