@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const crypto = require("crypto");
 
-// === 1. Sous-document pour Organisation ===
+// === Sous-document Organisation ===
 const organisationInfosSchema = new mongoose.Schema({
     contact: { type: String, default: "" },
     description: { type: String, default: "" }
 }, { _id: false });
 
-
-// === 2. Schéma principal User ===
+// === Schéma principal User ===
 const userSchema = new mongoose.Schema({
 
     email: {
@@ -19,7 +19,10 @@ const userSchema = new mongoose.Schema({
 
     password: {
         type: String,
-        required: true
+        required: function () {
+            return this.authProvider === "local";
+        },
+        default: null
     },
 
     role: {
@@ -28,60 +31,53 @@ const userSchema = new mongoose.Schema({
         required: true
     },
 
-    name: {
-        type: String,
-        required: true
-    },
-
-    ville: {
-        type: String,
-        default: ""
-    },
-
-    phone: {
-        type: String,
-        default: ""
-    },
+    name: { type: String, required: true },
+    ville: { type: String, default: "" },
+    phone: { type: String, default: "" },
 
     photo: {
         type: String,
-        default: "default-user.default-user.png"
+        default: "default-user.png"
     },
 
-    bio: {
+    bio: { type: String, default: "" },
+    categories: { type: String, default: "" },
+
+    authProvider: {
         type: String,
-        default: ""
-    },
-    categories: {
-        type: String,
-        default: "" 
+        enum: ["local", "google"],
+        default: "local"
     },
 
-    // === Infos spécifiques pour "organisation" ===
     organisation_infos: {
         type: organisationInfosSchema,
-        default: null    // ne sera pas présent pour un bénévole
+        default: null
     },
 
     resetPasswordToken: String,
     resetPasswordExpires: Date
 
-}, { timestamps: true });  // createdAt + updatedAt
+}, { timestamps: true });
 
 
-// === 3. HASH du mot de passe avant save() ===
+// === HASH DU MOT DE PASSE ===
 userSchema.pre("save", async function (next) {
+
+    // 🔥 Si Google Auth → créer un mot de passe fictif automatique
+    if (this.authProvider === "google" && !this.password) {
+        this.password = crypto.randomBytes(20).toString("hex");
+    }
+
+    // Ne pas re-hasher si non modifié
     if (!this.isModified("password")) return next();
 
-    try {
+    // Hasher uniquement si password existe
+    if (this.password) {
         const salt = await bcrypt.genSalt(10);
         this.password = await bcrypt.hash(this.password, salt);
-        next();
-    } catch (err) {
-        next(err);
     }
+
+    next();
 });
 
-
-// === 4. Export du modèle ===
 module.exports = mongoose.model("User", userSchema);
